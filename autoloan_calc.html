@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class=" js">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Car Payment Calculator</title>
+
+  <script type="text/javascript" src="script.js"></script>
+
+  <style type="text/css">
+    .wrapper {
+      width: 960px; 
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+    }
+    .wrapper .alc_calc, 
+    .wrapper .alc_results {width: 50%;}
+
+    .alc_table tr td {max-width: 50%; width: 100%;}
+    .alc_table tr td:first-child {text-align: right;}
+    .alc_table tr td:last-child {text-align: left;}
+
+    .alc_table tr.alc_table-header td *, 
+    .alc_table tr.alc_table-header td {text-align: center;}
+  </style>
+</head>
+<body>
+
+  <!-- Wrapper Start -->
+  <form name="calc" method="post" action="#">
+  <div class="alc wrapper">
+    <!-- CALCULATOR ================================================== -->
+      <div class="alc_calc">
+        <table class="alc_table" border="0" width="100%" cellpadding="4" cellspacing="0">
+          <tbody data-form-type="other">
+            <tr class="alc_table-header">
+              <td colspan="2" align="center">
+                <h3>Calculate Payments</h3>
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Vehicle Price ($): </td>
+              <td align="center">
+                <input name="price" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="40000" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="1" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                Down Payment ($):
+              </td>
+              <td align="center">
+                <input name="downPmt" class="calcinput" type="number" step="any" value="0" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" tabindex="2" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                Rebate ($):
+              </td>
+              <td align="center">
+                <input name="rebate" class="calcinput" type="number" step="any" value="0" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" tabindex="3" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Add rebate to downpayment?:
+              </td>
+              <td align="center">
+                <select name="addrebate" size="1" onchange="clear_results(this.form);computeForm(this.form)"
+                  data-form-type="other">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                Trade-in ($):
+              </td>
+              <td align="center">
+                <input name="trade" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="0" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="4" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                Owed on Trade-in (if rolled in loan):
+              </td>
+              <td align="center">
+                <input name="tradeowed" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="0" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="5" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Sales
+                Tax (%):
+              </td>
+              <td align="center">
+                <input name="taxes" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="1" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="6" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Include Sales Taxes In Loan?:
+              </td>
+              <td align="center">
+                <select name="finst" size="1" onchange="clear_results(this.form);computeForm(this.form)"
+                  data-form-type="other">
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Interest Rate (%):
+              </td>
+              <td align="center">
+                <input name="interest" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="6" size="12"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="7" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                Loan Term <select name="termtype" style="display: inline-block !important;" size="1"
+                  onchange="clear_results(this.form);computeForm(this.form)" data-form-type="other">
+                  <option value="1">Years</option>
+                  <option value="12">Months</option>
+                  <option value="52">Weeks</option>
+                </select>:
+              </td>
+              <td align="center">
+                <input name="payments" class="calcinput" type="number" step="any"
+                  onkeyup="clear_results(this.form);computeForm(this.form)" value="6" size="3"
+                  onfocus="if(this.value==this.defaultValue)this.value=''"
+                  onblur="if(this.value=='')this.value=this.defaultValue" tabindex="8"
+                  style="display: inline-block !important;" data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">Payment Frequency:
+              </td>
+              <td align="center">
+                <select name="pfreq" size="1" onchange="clear_results(this.form);computeForm(this.form)"
+                  data-form-type="other">
+                  <option value="12">monthly</option>
+                  <option value="1">yearly</option>
+                  <option value="2">semi-annual</option>
+                  <option value="4">quarterly</option>
+                  <option value="6">bi-monthly</option>
+                  <option value="12">monthly</option>
+                  <option value="24">semi-monthly</option>
+                  <option value="26">bi-weekly</option>
+                  <option value="52">weekly</option>
+                </select>
+              </td>
+            </tr>
+            <tr class="alc_table-header">
+              <td align="center" colspan="2">
+                <br>
+                <input type="button" value="Calculate" class="button medium" onclick="computeForm(this.form)"
+                  tabindex="9" data-form-type="action">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <!-- CALCULATOR ================================================== -->
+    
+    <!-- OUTPUT ====================================================== -->
+      <div class="alc_results">
+        <table class="alc_table" border="0" width="100%" cellpadding="4" cellspacing="0">
+          <tbody data-form-type="other">
+            <tr class="alc_table-header">
+              <td align="center" colspan="2">
+                <h3>Your Auto Loan Results</h3>
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong> Payment Amount:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresults" name="payment" size="12" tabindex="10" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong>Loan Amount:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresult" name="loanAmt" size="12" tabindex="11" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong>Sales Tax:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresult" name="taxestotal" size="12" tabindex="12" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong>Downpay &amp; Trade-in, less owed on Trade-in:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresult" name="dtotal" size="12" tabindex="13" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong>Total Interest Cost:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresult" name="interesttotal" size="12" tabindex="14" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+            <tr>
+              <td align="right">
+                <strong>All In Cost:</strong>
+              </td>
+              <td align="center">
+                <input type="text" class="calcresult" name="allintotal" size="12" tabindex="15" readonly=""
+                  data-form-type="other">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <!-- OUTPUT ====================================================== -->  
+  </div>
+  </form>
+  <!-- Wrapper / End -->
+
+</body>
+</html>
