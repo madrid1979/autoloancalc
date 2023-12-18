@@ -29,9 +29,12 @@
 <body>
 
   <!-- Wrapper Start -->
-  <form name="calc" method="post" action="#">
-  <div class="alc wrapper">
-    <!-- CALCULATOR ================================================== -->
+  <div id="loan_calcs" class="loan_calcs">
+
+    <!-- AUTO LOAN CALCULATOR -->
+    <form name="calc" method="post" action="#">
+    <div class="alc wrapper">
+      <!-- CALCULATOR ================================================== -->
       <div class="alc_calc">
         <table class="alc_table" border="0" width="100%" cellpadding="4" cellspacing="0">
           <tbody data-form-type="other">
@@ -60,10 +63,9 @@
                   onkeyup="clear_results(this.form);computeForm(this.form)" tabindex="2" data-form-type="other">
               </td>
             </tr>
+            <!--
             <tr>
-              <td align="right">
-                Rebate ($):
-              </td>
+              <td align="right">Rebate ($):</td>
               <td align="center">
                 <input name="rebate" class="calcinput" type="number" step="any" value="0" size="12"
                   onfocus="if(this.value==this.defaultValue)this.value=''"
@@ -72,8 +74,7 @@
               </td>
             </tr>
             <tr>
-              <td align="right">Add rebate to downpayment?:
-              </td>
+              <td align="right">Add rebate to downpayment?:</td>
               <td align="center">
                 <select name="addrebate" size="1" onchange="clear_results(this.form);computeForm(this.form)"
                   data-form-type="other">
@@ -82,6 +83,7 @@
                 </select>
               </td>
             </tr>
+            -->
             <tr>
               <td align="right">
                 Trade-in ($):
@@ -181,9 +183,9 @@
           </tbody>
         </table>
       </div>
-    <!-- CALCULATOR ================================================== -->
-    
-    <!-- OUTPUT ====================================================== -->
+      <!-- CALCULATOR ================================================== -->
+      
+      <!-- OUTPUT ====================================================== -->
       <div class="alc_results">
         <table class="alc_table" border="0" width="100%" cellpadding="4" cellspacing="0">
           <tbody data-form-type="other">
@@ -249,9 +251,107 @@
           </tbody>
         </table>
       </div>
-    <!-- OUTPUT ====================================================== -->  
+      <!-- OUTPUT ====================================================== -->    
+    </div>
+    </form>
+    <!-- AUTO LOAN CALCULATOR -->
+
+    <!-- MONTHLY BUDGET CALCULATOR -->
+    <form name="calc1" method="post" action="#" >
+    <div class="mbc wrapper">
+      <div class="mbc_calc">
+        <table border="0" width="100%" cellpadding="4" cellspacing="0">
+      <tbody>
+        <tr>
+          <td colspan="2" align="center">
+            <h3>Monthly Budget </h3>
+            <p>Enter a monthly payment to calculate loan size.</p>
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Monthly payment ($):</td>
+          <td align="center">
+            <input name="moPmt" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="800" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="22">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right"><strong>Current APR</strong> (%):</td>
+          <td align="center">
+            <input name="intRate" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="6" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="23">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Sales Tax % (if in loan):</td>
+          <td align="center">
+            <input name="salestaxes" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="1" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Loan term (years):</td>
+          <td align="center">
+            <input name="months" class="calcinput" type="number" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="6" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="24">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Trade-in value ($):</td>
+          <td align="center">
+            <input name="tradeInVal" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="0" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="25">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Owed on trade-in ($):</td>
+          <td align="center">
+            <input name="tradeInDebt" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="0" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right">Down payment ($):</td>
+          <td align="center">
+            <input name="downPay" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="1000" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="26">
+          </td>
+        </tr>
+        <!--
+        <tr>
+          <td align="right">Rebate added to down payment ($):</td>
+          <td align="center">
+            <input name="rebate" class="calcinput" type="number" step="any" onkeyup="clear_results1(this.form1);computeForm1(this.form1)" value="0" size="15" onfocus="if(this.value==this.defaultValue)this.value=''" onblur="if(this.value=='')this.value=this.defaultValue" tabindex="27">
+          </td>
+        </tr>
+        -->
+        <tr>
+          <td colspan="2" align="center">
+            <input type="button" value="Calculate" class="button medium" onclick="computeForm1(this.form)" tabindex="28">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right"><strong>Maximum vehicle price:</strong></td>
+          <td align="center">
+            <input type="text" class="calcresults" name="affordCost" size="15" tabindex="29">
+          </td>
+        </tr>
+  
+        <tr>
+          <td align="right"><strong>Required loan amount:</strong></td>
+          <td align="center">
+            <input type="text" class="calcresult" name="loanAmt" size="15" tabindex="30">
+          </td>
+        </tr>
+    </tbody>
+        </table>
+      </div>
+    </div>
+    </form>
+    <!-- MONTHLY BUDGET CALCULATOR -->
+
   </div>
-  </form>
   <!-- Wrapper / End -->
 
 </body>
