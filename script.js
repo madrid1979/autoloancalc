@@ -132,7 +132,8 @@ function computeForm(form) {
   var VdownPmt  = sn(document.calc.downPmt.value);
   var Vtrade    = sn(document.calc.trade.value);
   var Vtermtype = document.calc.termtype.options[document.calc.termtype.selectedIndex].value;
-  var Vpfreq    = document.calc.pfreq.options[document.calc.pfreq.selectedIndex].value;
+  /*var Vpfreq    = document.calc.pfreq.options[document.calc.pfreq.selectedIndex].value;*/
+  var Vpfreq    = document.calc.pfreq.value;
   var Vpayments = sn(document.calc.payments.value) * Vpfreq / Vtermtype;
       Vpayments = Math.round(Vpayments);
   var Vinterest = sn(document.calc.interest.value);
@@ -158,7 +159,11 @@ function computeForm(form) {
       document.calc.dtotal.value        = fns((VdownPmt + Vtrade - Vtradeowed), 2, 1, 1, 1);
     } else {
       var Vpayment = computeMonthlyPayment(VloanAmt, Vpayments, Vinterest, Vpfreq);
-      document.calc.payment.value       = fns(Vpayment, 2, 1, 1, 1);
+      let paymentvalue = fns(Vpayment, 2, 1, 1, 1);
+      document.calc.payment.value = paymentvalue;
+      let calcresultval = document.getElementById('calcresults_v2');
+          calcresultval.innerHTML = paymentvalue;
+
       var Vinteresttotal                = ((Vpayment * Vpayments) - VloanAmt);
       document.calc.interesttotal.value = fns(Vinteresttotal, 2, 1, 1, 1);
       document.calc.allintotal.value    = fns((Vprice + (Vprice * Vtax / 100) + Vinteresttotal), 2, 1, 1, 1);
@@ -224,7 +229,11 @@ function computeForm1(form1) {
       }
 
       VaffordCost = Number(VloanAmt) + Number(VdownPay) + Number(VtradeInVal) + Number(Vrebate) - Number(VtradeInDebt);
-      document.calc1.affordCost.value = fns(VaffordCost, 0, 1, 1, 1);
+
+      let acv = fns(VaffordCost, 0, 1, 1, 1);
+      document.calc1.affordCost.value = acv;
+      let costval = document.getElementById('affordCost_v2');
+          costval.innerHTML = acv;
     }
   }
 }
